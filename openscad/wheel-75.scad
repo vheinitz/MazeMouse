@@ -1,12 +1,15 @@
+// Wheel for maze mouse
+
+// Shaft fitting for 28BYJ-48 geared stepper
+
+// http://www.thingiverse.com/thing:122070
+
 // Mark Benson
 
 // 23/07/2013
 
 // Creative commons non commercial
 
-// Wheel for maze mouse
-// Shaft fitting for 28BYJ-48 geared stepper
-// http://www.thingiverse.com/thing:122070
 module mouseWheel()
 {
 
@@ -15,7 +18,7 @@ difference()
 	union()
 	{
 		//rim
-		cylinder(r=60/2,h=4,$fn=100);
+		cylinder(r=75/2,h=4,$fn=100);
 
 		//boss
 		cylinder(r=12/2,h=7,$fn=100);
@@ -34,16 +37,16 @@ difference()
 		//rim groove cutout
 		translate([0,0,2])
 		rotate_extrude(convexity=10, $fn=100)
-		translate([30.5,0,10])
+		translate([37.5,0,10])
 		rotate([0,0,45])
 		square([2,2],center=true);
 
 		//holes in the wheel
-		for(i = [0:5])
+		for(i = [0:4])
 		{
-			rotate(i*360/6,[0,0,1])
-			translate([18,0,-1])
-			cylinder(r=16/2,h=8,$fn=40);
+			rotate(i*360/5,[0,0,1])
+			translate([22,0,-1])
+			cylinder(r=22/2,h=8,$fn=40);
 		}
 
 	}
@@ -52,5 +55,5 @@ difference()
 }//end mouseWheel();
 
 
-
+//Call model to render, comment out if including in another model
 //mouseWheel();

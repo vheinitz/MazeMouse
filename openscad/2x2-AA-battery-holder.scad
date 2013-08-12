@@ -1,6 +1,12 @@
 //Battery holder mockup
 //2x2 configuration
 
+// Mark Benson
+
+// 12/08/2013
+
+// Creative Commons Non Commerical
+
 module batteryBox()
 {
 //Battery size
@@ -45,4 +51,5 @@ difference()
 
 }//end of batteryBox(); module
 
+//Call batteryBox() module - comment this out if you include this file in another model
 //batteryBox();

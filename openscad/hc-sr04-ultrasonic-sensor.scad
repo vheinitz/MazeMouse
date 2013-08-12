@@ -6,6 +6,8 @@
 
 //Creative Commons non commercial
 
+//http://www.thingiverse.com/thing:122136
+
 difference()
 {
 	union()
@@ -43,7 +45,6 @@ module ultrasonicSensor()
 	}
 }
 
-//ultrasonicSensor(); 
 
 module xtal()
 {
@@ -78,5 +79,10 @@ module headerPin(numberOfPins)
 	}
 }
 
+//Example call to headerPin module. The integer passed in defines the number of pins in the model
 //headerPin(4);
+
+
+//Call model - comment out when including this file in another model
+//ultrasonicSensor(); 
 

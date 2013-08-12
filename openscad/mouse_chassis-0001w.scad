@@ -1,26 +1,36 @@
+// Maze Mouse 3D Printed Chassis
+
+// Wide version 001
+
+// Mark Benson
+
+// 12/08/2013
+
+// Creative Commons Non Commerical
+
 include <28BYJ-48-Stepper-Motor.scad>
 include <wheel.scad>
 include <2x2-AA-battery-holder.scad>
 
 
 chassisWidth = 55;
-chassisLenght = 65;
+chassisLenght = 75;
 chassisBaseThickness = 3;
 chassisCornerRadius = 6;
 
 //Stepper motors (to check fit)
-translate([5.4,-6,12.1]) rotate([90,0,90]) stepper28BYJ();
-translate([-5.4,-6,12.1]) rotate([270,180,90]) stepper28BYJ();
+//translate([5.4,-6,12.1]) rotate([90,0,90]) stepper28BYJ();
+//translate([-5.4,-6,12.1]) rotate([270,180,90]) stepper28BYJ();
 
 //Wheels to check fit
-color() translate([35,-6,20]) rotate([270,0,90]) mouseWheel();
-color() translate([-35,-6,20]) rotate([90,180,90]) mouseWheel();
+//color() translate([35,-6,20]) rotate([270,0,90]) mouseWheel();
+//color() translate([-35,-6,20]) rotate([90,180,90]) mouseWheel();
 
 //16mm sphere to check marble fit
-color("red") translate([0,58,3]) sphere(r=16/2, $fn=50);
+//color("red") translate([0,58,3]) sphere(r=16/2, $fn=50);
 
 //Battery module to check fit
-translate([-27,25,28]) rotate([0,90,0]) batteryBox();
+//translate([-27,25,28]) rotate([0,90,0]) batteryBox();
 
 module chassisBase()
 {
@@ -75,6 +85,7 @@ module castorWheelHousing()
 	castorWheelHousingHeight = 6;
 	castorWheelHousingLength = 30;
 	standardMarbleDiameter = 16;
+	castorWheelHousingWallThickness = 2.5;
 
 	difference()
 	{
@@ -86,7 +97,7 @@ module castorWheelHousing()
 				translate([0,castorWheelHousingLength,0]) cylinder(r=12/2, h=castorWheelHousingHeight, $fn=40);
 			}//end hull
 
-			translate([0,castorWheelHousingLength,0]) cylinder(r=standardMarbleDiameter/2+1, h=standardMarbleDiameter+2, $fn=40);
+			translate([0,castorWheelHousingLength,0]) cylinder(r=standardMarbleDiameter/2+castorWheelHousingWallThickness, h=standardMarbleDiameter+2, $fn=40);
 
 		}//end union
 
@@ -103,6 +114,17 @@ module castorWheelHousing()
 
 }//end of module castorWheelHousing
 
+module reinforcingRib()
+{
+	difference()
+	{
+		cube([2.5,10,10], center=true);
+		rotate([45,0,0]) translate([-2,-10,0]) cube([4,20,10], center=false);
+	}
+}//end of module reinforcingRib
+
+//translate([0,43,9]) reinforcingRib();
+
 //Module that takes the component parts and creates the main chassis base
 module chassisBaseAssembly()
 {
@@ -113,20 +135,25 @@ module chassisBaseAssembly()
 		
 		union()
 		{
-			translate([0,-1,-2]) chassisBase();
+			translate([0,-5,-2]) chassisBase();
 			translate([24.5,11.5,12]) rotate([0,90,0]) stepperMountingTab();
 			translate([-27.5,11.5,12]) rotate([0,90,0]) stepperMountingTab();
 			translate([24.5,-23.5,12]) rotate([0,90,0]) stepperMountingTab();
 			translate([-27.5,-23.5,12]) rotate([0,90,0]) stepperMountingTab();
 			translate([0,28,-2]) rotate([0,0,0]) castorWheelHousing();
+			translate([0,43,9]) reinforcingRib();
 		}
 
 		//subtract these objects
 		union()
 		{
 			//Test subtract motors shapes to see what material we need to remove
-			translate([5.4,-6,12.1]) rotate([90,0,90]) stepper28BYJ();
-			translate([-5.4,-6,12.1]) rotate([270,180,90]) stepper28BYJ();
+			//translate([5.4,-6,12.1]) rotate([90,0,90]) stepper28BYJ();
+			//translate([-5.4,-6,12.1]) rotate([270,180,90]) stepper28BYJ();
+
+			translate([-4.2,-6,8]) rotate([270,180,90]) cylinder(r=29/2, h=20);
+
+			translate([24.2,-6,8]) rotate([270,180,90]) cylinder(r=29/2, h=20);
 
 			//Cutout for motor boss - not needed when motors have the shaft at the top	
 			//Positive x side		
@@ -142,15 +169,26 @@ module chassisBaseAssembly()
 			//translate([22.5,0,10.5]) rotate([0,90,0]) cube([15,3,2], center=true);
 
 			//Cutout for wiring
+			//hull()
+			//{
+			//translate([0,3,-3]) rotate([0,0,0]) cylinder(r=5/2, h=10, $fn=40);
+			//translate([0,-16,-3]) rotate([0,0,0]) cylinder(r=3.5, h=10, $fn=40);
+			//}
+			
+			translate([0,-2,0])
 			hull()
 			{
-			translate([0,3,-3]) rotate([0,0,0]) cylinder(r=3.5, h=10, $fn=40);
-			translate([0,-16,-3]) rotate([0,0,0]) cylinder(r=3.5, h=10, $fn=40);
-			}
 			translate([-15,-25,-3]) rotate([0,0,0]) cylinder(r=4.5, h=10, $fn=40);
 			translate([15,-25,-3]) rotate([0,0,0]) cylinder(r=4.5, h=10, $fn=40);
+			}
+
+
+			translate([0,3,0])
+			hull()
+			{
 			translate([-15,12,-3]) rotate([0,0,0]) cylinder(r=4.5, h=10, $fn=40);
 			translate([15,12,-3]) rotate([0,0,0]) cylinder(r=4.5, h=10, $fn=40);
+			}
 		}
 	
 	}//end of difference
